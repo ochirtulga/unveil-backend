@@ -1,0 +1,112 @@
+# Unveil Backend Configuration
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: unveil
+
+  # PostgreSQL Configuration (Supabase)
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  # JPA/Hibernate Configuration
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update  # Creates/updates tables automatically
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+# Logging Configuration
+logging:
+  level:
+    com.Unveil: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/unveil.log
+
+# Management/Actuator endpoints (for monitoring)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Application Info
+info:
+  app:
+    name: Unveil Backend
+    description: Bad Actors Search and Verification API
+    version: 1.0.0-MVP
+
+---
+# Production Profile (when using --spring.profiles.active=prod)
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  # Production Database Configuration (when ready)
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Don't auto-create tables in production
+    show-sql: false
+
+  h2:
+    console:
+      enabled: false  # Disable H2 console in production
+
+  # Security headers
+  security:
+    headers:
+      frame-options: DENY
+      content-type-options: nosniff
+
+logging:
+  level:
+    com.Unveil: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    show-sql: true  # Show SQL queries in development
+
+logging:
+  level:
+    com.Unveil: DEBUG
+    org.springframework.web: DEBUG
