@@ -1,16 +1,12 @@
 package com.unveil.service;
 
 import com.unveil.entity.Case;
-import com.unveil.entity.User;
-import com.unveil.entity.Vote;
 import com.unveil.repository.CaseRepository;
-import com.unveil.repository.VoteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +17,9 @@ import java.util.Optional;
 public class SearchService {
 
     private final CaseRepository repository;
-    private final VoteRepository voteRepository;
 
-    public SearchService(CaseRepository caseRepository, VoteRepository voteRepository) {
+    public SearchService(CaseRepository caseRepository) {
         this.repository = caseRepository;
-        this.voteRepository = voteRepository;
     }
 
     /**
@@ -57,83 +51,6 @@ public class SearchService {
             case "all" -> searchByAll(value.trim(), pageable);
             default -> throw new IllegalArgumentException("Unsupported filter: " + filter);
         };
-    }
-
-    // ============ AUTHENTICATED VOTING METHODS ============
-
-    /**
-     * Cast an authenticated vote on a Case's guilt
-     * Prevents duplicate voting by the same user
-     */
-    @Transactional
-    public Case castAuthenticatedVote(Long caseId, String vote, User user) {
-        Optional<Case> caseOpt = repository.findById(caseId);
-
-        if (caseOpt.isEmpty()) {
-            return null;
-        }
-
-        Case caseEntity = caseOpt.get();
-
-        // Check if user has already voted on this Case
-        Optional<Vote> existingVote = voteRepository.findByUserIdAndCaseEntityId(user.getId(), caseId);
-
-        if (existingVote.isPresent()) {
-            throw new IllegalStateException("You have already voted on this case. Each user can only vote once per case.");
-        }
-
-        Vote.VoteType voteType;
-        if ("guilty".equalsIgnoreCase(vote)) {
-            voteType = Vote.VoteType.GUILTY;
-        } else if ("not_guilty".equalsIgnoreCase(vote)) {
-            voteType = Vote.VoteType.NOT_GUILTY;
-        } else {
-            throw new IllegalArgumentException("Invalid vote type: " + vote);
-        }
-
-        // Create new vote record
-        Vote newVote = new Vote();
-        newVote.setUser(user);
-        newVote.setCaseEntity(caseEntity);
-        newVote.setVoteType(voteType);
-        newVote.setIpAddress("127.0.0.1"); // In production, get real IP address
-
-        // Save vote
-        voteRepository.save(newVote);
-
-        // Update Case vote counts
-        updateCaseVoteCounts(caseEntity);
-
-        // Save and return updated Case
-        return repository.save(caseEntity);
-    }
-
-    /**
-     * Update Case vote counts based on actual Vote records
-     */
-    private void updateCaseVoteCounts(Case caseEntity) {
-        Long guiltyVotes = voteRepository.countByCaseIdAndVoteType(caseEntity.getId(), Vote.VoteType.GUILTY);
-        Long notGuiltyVotes = voteRepository.countByCaseIdAndVoteType(caseEntity.getId(), Vote.VoteType.NOT_GUILTY);
-
-        caseEntity.setGuiltyVotes(guiltyVotes.intValue());
-        caseEntity.setNotGuiltyVotes(notGuiltyVotes.intValue());
-        caseEntity.setTotalVotes(guiltyVotes.intValue() + notGuiltyVotes.intValue());
-        caseEntity.setVerdictScore(guiltyVotes.intValue() - notGuiltyVotes.intValue());
-        caseEntity.setLastVotedAt(java.time.LocalDateTime.now());
-    }
-
-    /**
-     * Check if a user has voted on a specific Case
-     */
-    public boolean hasUserVoted(Long userId, Long caseId) {
-        return voteRepository.existsByUserIdAndCaseEntityId(userId, caseId);
-    }
-
-    /**
-     * Get user's vote on a specific Case
-     */
-    public Optional<Vote> getUserVote(Long userId, Long caseId) {
-        return voteRepository.findByUserIdAndCaseEntityId(userId, caseId);
     }
 
     /**
@@ -227,7 +144,7 @@ public class SearchService {
         return stats;
     }
 
-    // ============ EXISTING SEARCH METHODS ============
+    // ============ SEARCH METHODS ============
 
     /**
      * Search by name (partial match, case insensitive)

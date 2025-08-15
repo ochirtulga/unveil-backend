@@ -1,8 +1,6 @@
 package com.unveil.controller;
 
 import com.unveil.entity.Case;
-import com.unveil.entity.User;
-import com.unveil.service.AuthService;
 import com.unveil.service.SearchService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,11 +18,9 @@ import java.util.Optional;
 public class SearchController {
 
     private final SearchService service;
-    private final AuthService authService;
 
-    public SearchController(SearchService searchService, AuthService authService) {
+    public SearchController(SearchService searchService) {
         this.service = searchService;
-        this.authService = authService;
     }
 
     /**
@@ -90,161 +86,6 @@ public class SearchController {
     }
 
     /**
-     * Vote on a Case's guilt (AUTHENTICATION REQUIRED)
-     * POST /api/v1/case/{id}/vote
-     * Body: {"vote": "guilty"} or {"vote": "not_guilty"}
-     * Header: Authorization: Bearer <token>
-     */
-    @PostMapping("/case/{id}/vote")
-    public ResponseEntity<Map<String, Object>> vote(
-            @PathVariable Long id,
-            @RequestBody Map<String, String> voteRequest,
-            @RequestHeader("Authorization") String authHeader) {
-
-        try {
-            // Verify authentication
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Authentication required");
-                errorResponse.put("message", "Please sign in with LinkedIn to vote");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-            }
-
-            String token = authHeader.substring(7);
-            User authenticatedUser = authService.verifyToken(token);
-
-            if (authenticatedUser == null) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Invalid authentication");
-                errorResponse.put("message", "Please sign in again");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-            }
-
-            String vote = voteRequest.get("vote");
-
-            // Validate vote type
-            if (vote == null || (!vote.equals("guilty") && !vote.equals("not_guilty"))) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Invalid vote. Must be 'guilty' or 'not_guilty'");
-                errorResponse.put("allowedVotes", List.of("guilty", "not_guilty"));
-                return ResponseEntity.badRequest().body(errorResponse);
-            }
-
-            // Cast vote (this will handle user authentication and duplicate vote prevention)
-            Case updatedCase = service.castAuthenticatedVote(id, vote, authenticatedUser);
-
-            if (updatedCase == null) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Case not found");
-                errorResponse.put("id", id);
-                return ResponseEntity.notFound().build();
-            }
-
-            // Build response
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("message", "Vote cast successfully");
-            response.put("caseId", id);
-            response.put("vote", vote);
-            response.put("verdict", updatedCase.getVerdictSummary());
-            response.put("voter", Map.of(
-                    "name", authenticatedUser.getFullName(),
-                    "id", authenticatedUser.getLinkedInId()
-            ));
-
-            return ResponseEntity.ok(response);
-
-        } catch (IllegalStateException e) {
-            // User already voted
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Vote already cast");
-            errorResponse.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to cast vote: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
-
-    /**
-     * Get verdict statistics for a Case
-     * GET /api/v1/case/{id}/verdict
-     */
-    @GetMapping("/case/{id}/verdict")
-    public ResponseEntity<Map<String, Object>> getVerdict(@PathVariable Long id) {
-        try {
-            Optional<Case> caseOpt = service.getCaseById(id);
-
-            if (caseOpt.isEmpty()) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Case not found");
-                errorResponse.put("id", id);
-                return ResponseEntity.notFound().build();
-            }
-
-            Case caseEntity = caseOpt.get();
-            Map<String, Object> response = new HashMap<>();
-            response.put("caseId", id);
-            response.put("verdict", caseEntity.getVerdictSummary());
-
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to get verdict: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
-
-    /**
-     * Get verdict statistics across all Cases
-     * GET /api/v1/verdicts/stats
-     */
-    @GetMapping("/verdicts/stats")
-    public ResponseEntity<Map<String, Object>> getVerdictStats() {
-        try {
-            Map<String, Object> stats = service.getVerdictStatistics();
-            return ResponseEntity.ok(stats);
-
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to get verdict statistics: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
-
-    /**
-     * Get most controversial Cases (those with close guilty/not guilty votes)
-     * GET /api/v1/cases/controversial?page=0&size=10
-     */
-    @GetMapping("/cases/controversial")
-    public ResponseEntity<Map<String, Object>> getControversialCases(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
-
-        try {
-            if (size > 50) size = 50;
-            if (size < 1) size = 10;
-
-            Page<Case> controversialCases = service.getControversialCases(page, size);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("results", controversialCases.getContent());
-            response.put("pagination", buildPaginationInfo(controversialCases));
-            response.put("message", "Most controversial cases (close votes)");
-
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to get controversial cases: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
-
-    /**
      * Get Cases by verdict status
      * GET /api/v1/cases/verdict/{status}?page=0&size=20
      * Status can be: guilty, not_guilty, pending
@@ -284,6 +125,35 @@ public class SearchController {
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "Failed to get cases by verdict: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    /**
+     * Get most controversial Cases (those with close guilty/not guilty votes)
+     * GET /api/v1/cases/controversial?page=0&size=10
+     */
+    @GetMapping("/cases/controversial")
+    public ResponseEntity<Map<String, Object>> getControversialCases(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        try {
+            if (size > 50) size = 50;
+            if (size < 1) size = 10;
+
+            Page<Case> controversialCases = service.getControversialCases(page, size);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("results", controversialCases.getContent());
+            response.put("pagination", buildPaginationInfo(controversialCases));
+            response.put("message", "Most controversial cases (close votes)");
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Failed to get controversial cases: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
