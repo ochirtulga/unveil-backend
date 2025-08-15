@@ -1,0 +1,13 @@
+ext.pathMapper = [:]
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/lib/util_rt.jar', '/tmp/hayc5g/util_rt.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/lib/external-system-rt.jar', '/tmp/hayc5g/external-system-rt.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/plugins/gradle/lib/gradle-tooling-extension-api.jar', '/tmp/HhFLL5/gradle-tooling-extension-api.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/plugins/gradle/lib/gradle-tooling-extension-impl.jar', '/tmp/HhFLL5/gradle-tooling-extension-impl.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/lib/util-8.jar', '/tmp/hayc5g/util-8.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/lib/util_rt.jar', '/tmp/hayc5g/util_rt.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/lib/external-system-rt.jar', '/tmp/hayc5g/external-system-rt.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/plugins/gradle/lib/gradle-tooling-extension-api.jar', '/tmp/HhFLL5/gradle-tooling-extension-api.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/plugins/gradle/lib/gradle-tooling-extension-impl.jar', '/tmp/HhFLL5/gradle-tooling-extension-impl.jar')
+ext.pathMapper.put('C:/Program Files/JetBrains/IntelliJ IDEA 2023.2.4/lib/util-8.jar', '/tmp/hayc5g/util-8.jar')
+ext.pathMapper.put("<<target java executable path>>", '/home/ochrono/.jdks/openjdk-24.0.2/bin/java')
+ext.mapPath = { path -> pathMapper.get(path) ?: path }
