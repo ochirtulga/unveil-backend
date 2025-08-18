@@ -32,13 +32,11 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: true
-
-  # Email Configuration
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:}
-    password: ${MAIL_PASSWORD:}
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_APP_PASSWORD}
     properties:
       mail:
         smtp:
@@ -49,19 +47,16 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
-
-# Application-specific Configuration
+# OTP Configuration
 app:
-  verification:
-    code-expiry-minutes: ${VERIFICATION_CODE_EXPIRY:10}
-    token-expiry-hours: ${VERIFICATION_TOKEN_EXPIRY:24}
-    max-attempts: ${VERIFICATION_MAX_ATTEMPTS:5}
-    rate-limit-minutes: ${VERIFICATION_RATE_LIMIT:1}
-    from-email: ${FROM_EMAIL:noreply@unveil.com}
-    from-name: ${FROM_NAME:Unveil}
-
+  otp:
+    expiry-minutes: ${OTP_EXPIRY_MINUTES:5}     # OTP expires in 5 minutes
+    rate-limit-minutes: ${RATE_LIMIT_MINUTES:1} # Can request OTP every 1 minute
+    max-attempts: ${MAX_ATTEMPTS:3}             # Max 3 verification attempts
+  mail:
+    from: ${FROM_EMAIL}      # From email address
   jwt:
-    secret: ${JWT_SECRET:your-very-secure-jwt-secret-key-that-is-at-least-256-bits-long-for-production-use}
+    secret: ${JWT_SECRET}
 
 # Logging Configuration
 logging:
@@ -92,50 +87,17 @@ info:
     name: Unveil System
     description: Case Submission Verification with Email Authentication
     version: 1.0.0-MVP
-
 ---
-# Production Profile (when using --spring.profiles.active=prod)
+# Development Profile
 spring:
   config:
     activate:
-      on-profile: prod
-
-  # Production Database Configuration
-  datasource:
-    url: ${DATABASE_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: validate  # Don't auto-create tables in production
-    show-sql: false
-
-  h2:
-    console:
-      enabled: false  # Disable H2 console in production
-
-  # Production Email Configuration
+      on-profile: dev
   mail:
-    host: ${SMTP_HOST:smtp.gmail.com}
-    port: ${SMTP_PORT:587}
-    username: ${SMTP_USERNAME}
-    password: ${SMTP_PASSWORD}
-
-# Production App Configuration
-app:
-  verification:
-    code-expiry-minutes: 10
-    token-expiry-hours: 24
-    max-attempts: 5
-    rate-limit-minutes: 2  # Stricter rate limiting in production
-    from-email: ${FROM_EMAIL:noreply@unveil.com}
-    from-name: "Unveil - Scam Verification"
-
-  jwt:
-    secret: ${JWT_SECRET}  # Must be set as environment variable
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_USERNAME:}
+    password: ${GMAIL_APP_PASSWORD:}
 
 logging:
   level:
@@ -143,66 +105,3 @@ logging:
     org.springframework: WARN
     org.hibernate: WARN
     org.springframework.mail: INFO
-
----
-# Development Profile
-spring:
-  config:
-    activate:
-      on-profile: dev
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    show-sql: true  # Show SQL queries in development
-    hibernate:
-      ddl-auto: create-drop  # Recreate schema on startup
-
-  # Development Email Configuration (Console output)
-  mail:
-    host: localhost
-    port: 1025
-    username:
-    password:
-    properties:
-      mail:
-        smtp:
-          auth: false
-          starttls:
-            enable: false
-
-# Development App Configuration
-app:
-  verification:
-    code-expiry-minutes: 30  # Longer expiry for development
-    token-expiry-hours: 48   # Longer token expiry for development
-    max-attempts: 10         # More attempts for development
-    rate-limit-minutes: 0.1  # Minimal rate limiting for development
-    from-email: "dev@unveil-dev.local"
-    from-name: "Unveil DEV"
-
-logging:
-  level:
-    com.unveil: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.mail: DEBUG
-
----
-# Test Profile
-spring:
-  config:
-    activate:
-      on-profile: test
-
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: false
-
-  # Disable email in tests
-  mail:
-    host: localhost
-    port: 3025
-
-logging:
-  level:
-    com.unveil: WARN

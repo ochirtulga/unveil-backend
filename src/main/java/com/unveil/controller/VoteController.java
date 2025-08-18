@@ -1,8 +1,8 @@
 package com.unveil.controller;
 
 import com.unveil.entity.Case;
+import com.unveil.service.OtpService;
 import com.unveil.service.VoteService;
-import com.unveil.service.VerificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +18,11 @@ import java.util.Optional;
 public class VoteController {
 
     private final VoteService voteService;
-    private final VerificationService verificationService;
+    private final OtpService otpService;
 
-    public VoteController(VoteService voteService, VerificationService verificationService) {
+    public VoteController(VoteService voteService, OtpService otpService) {
         this.voteService = voteService;
-        this.verificationService = verificationService;
+        this.otpService = otpService;
     }
 
     /**
@@ -31,6 +31,7 @@ public class VoteController {
      * Body: {"vote": "guilty", "email": "user@example.com"}
      * Headers: Authorization: Bearer <verification-token> (optional, but recommended)
      */
+
     @PostMapping("/case/{id}/vote")
     public ResponseEntity<Map<String, Object>> vote(
             @PathVariable Long id,
@@ -46,7 +47,6 @@ public class VoteController {
             if (vote == null || (!vote.equals("guilty") && !vote.equals("not_guilty"))) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("error", "Invalid vote. Must be 'guilty' or 'not_guilty'");
-                errorResponse.put("allowedVotes", List.of("guilty", "not_guilty"));
                 return ResponseEntity.badRequest().body(errorResponse);
             }
 
@@ -54,13 +54,13 @@ public class VoteController {
             String voterIdentifier;
             boolean isEmailVerified = false;
 
-            // Check for email verification token
+            // Check for OTP verification token
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 try {
                     String token = authHeader.substring(7);
 
-                    if (verificationService.isTokenValid(token)) {
-                        String tokenEmail = verificationService.getEmailFromToken(token);
+                    if (otpService.isTokenValid(token)) {  // Use simplified OTP service
+                        String tokenEmail = otpService.getEmailFromToken(token);
 
                         // If email provided in body, verify it matches token
                         if (email != null && !email.equalsIgnoreCase(tokenEmail)) {
@@ -88,18 +88,17 @@ public class VoteController {
                 errorResponse.put("requiresVerification", true);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
             } else {
-                // Fall back to IP-based voting (for backward compatibility)
+                // Fall back to IP-based voting
                 String ipAddress = clientIp != null ? clientIp : "unknown";
                 voterIdentifier = "ip:" + ipAddress;
             }
 
-            // Cast vote with enhanced voter identifier
+            // Cast vote
             Case updatedCase = voteService.castVoteWithVerification(id, vote, voterIdentifier, isEmailVerified);
 
             if (updatedCase == null) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("error", "Case not found");
-                errorResponse.put("id", id);
                 return ResponseEntity.notFound().build();
             }
 
@@ -115,16 +114,9 @@ public class VoteController {
             return ResponseEntity.ok(response);
 
         } catch (IllegalStateException e) {
-            // Duplicate vote or other state issue
+            // Duplicate vote
             Map<String, Object> errorResponse = new HashMap<>();
-
-            if (e.getMessage().contains("already voted")) {
-                errorResponse.put("error", "You have already voted on this case");
-                errorResponse.put("errorType", "DUPLICATE_VOTE");
-            } else {
-                errorResponse.put("error", e.getMessage());
-            }
-
+            errorResponse.put("error", "You have already voted on this case");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
 
         } catch (Exception e) {
@@ -160,57 +152,6 @@ public class VoteController {
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "Failed to get verdict: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
-
-    /**
-     * Check if user has voted on a case
-     * GET /api/v1/case/{id}/vote-status
-     */
-    @GetMapping("/case/{id}/vote-status")
-    public ResponseEntity<Map<String, Object>> getVoteStatus(
-            @PathVariable Long id,
-            @RequestHeader(value = "Authorization", required = false) String authHeader,
-            @RequestHeader(value = "X-Forwarded-For", required = false) String clientIp) {
-
-        try {
-            String voterIdentifier;
-
-            // Determine voter identifier same way as voting
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                try {
-                    String token = authHeader.substring(7);
-                    if (verificationService.isTokenValid(token)) {
-                        String email = verificationService.getEmailFromToken(token);
-                        voterIdentifier = "email:" + email;
-                    } else {
-                        Map<String, Object> errorResponse = new HashMap<>();
-                        errorResponse.put("error", "Invalid verification token");
-                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-                    }
-                } catch (Exception e) {
-                    Map<String, Object> errorResponse = new HashMap<>();
-                    errorResponse.put("error", "Invalid token format");
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-                }
-            } else {
-                String ipAddress = clientIp != null ? clientIp : "unknown";
-                voterIdentifier = "ip:" + ipAddress;
-            }
-
-            boolean hasVoted = voteService.hasVoterVotedOnCase(voterIdentifier, id);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("caseId", id);
-            response.put("hasVoted", hasVoted);
-            response.put("voterIdentifier", voterIdentifier.startsWith("email:") ? "email" : "ip");
-
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to check vote status: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }

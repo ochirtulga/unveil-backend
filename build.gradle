@@ -39,9 +39,6 @@ dependencies {
     // Database
     runtimeOnly 'org.postgresql:postgresql'
 
-    // For H2 database (development/testing)
-    runtimeOnly 'com.h2database:h2'
-
     // JSON Processing
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
