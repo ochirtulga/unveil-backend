@@ -28,8 +28,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+    // Email Support
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // JWT Support
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
     // Database
     runtimeOnly 'org.postgresql:postgresql'
+
+    // For H2 database (development/testing)
+    runtimeOnly 'com.h2database:h2'
 
     // JSON Processing
     implementation 'com.fasterxml.jackson.core:jackson-databind'
@@ -38,8 +49,12 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // Apache Commons for utilities
+    implementation 'org.apache.commons:commons-lang3:3.13.0'
+
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     // Development tools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

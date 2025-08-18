@@ -36,12 +36,12 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     /**
      * Find by exact email match
      */
-    Page<Case> findByEmailIgnoreCase(String email, Pageable pageable);
+    Page<Case> findByEmailContainingIgnoreCase(String email, Pageable pageable);
 
     /**
      * Find by exact phone match
      */
-    Page<Case> findByPhone(String phone, Pageable pageable);
+    Page<Case> findByPhoneContainingIgnoreCase(String phone, Pageable pageable);
 
     /**
      * Find by name containing (case insensitive)

@@ -1,8 +1,53 @@
--- Unveil Sample Data with Verdict System
+-- Unveil Sample Data with Verdict System and Email Verification
 -- This file automatically loads when the application starts
 
+-- First, ensure the verification_codes table exists (for H2 development)
+CREATE TABLE IF NOT EXISTS verification_codes (
+                                                  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                                  email_hash VARCHAR(64) NOT NULL,
+    code VARCHAR(6) NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    attempts INTEGER NOT NULL DEFAULT 0,
+    max_attempts INTEGER NOT NULL DEFAULT 5,
+    verified BOOLEAN NOT NULL DEFAULT FALSE,
+    verified_at TIMESTAMP NULL,
+    ip_address VARCHAR(45),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
+
+CREATE INDEX IF NOT EXISTS idx_verification_email_hash ON verification_codes(email_hash);
+CREATE INDEX IF NOT EXISTS idx_verification_expires_at ON verification_codes(expires_at);
+CREATE INDEX IF NOT EXISTS idx_verification_ip ON verification_codes(ip_address);
+
+-- Update the cases table to use correct name (was bad_actors)
+-- Note: In production with PostgreSQL, this would be handled by schema migration
+CREATE TABLE IF NOT EXISTS cases (
+                                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                     name VARCHAR(255),
+    email VARCHAR(255),
+    phone VARCHAR(50),
+    company VARCHAR(255),
+    description TEXT,
+    actions VARCHAR(300),
+    reported_by VARCHAR(100),
+    verdict_score INTEGER NOT NULL DEFAULT 0,
+    total_votes INTEGER NOT NULL DEFAULT 0,
+    guilty_votes INTEGER NOT NULL DEFAULT 0,
+    not_guilty_votes INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_voted_at TIMESTAMP NULL
+    );
+
+CREATE INDEX IF NOT EXISTS idx_case_name ON cases(name);
+CREATE INDEX IF NOT EXISTS idx_case_email ON cases(email);
+CREATE INDEX IF NOT EXISTS idx_case_phone ON cases(phone);
+CREATE INDEX IF NOT EXISTS idx_case_verdict ON cases(verdict_score);
+
+-- Clear existing data
+DELETE FROM cases;
+
 -- Tech Support Scams (Generally highly voted as guilty)
-INSERT INTO bad_actors (name, email, phone, company, description, actions, reported_by, verdict_score, total_votes, guilty_votes, not_guilty_votes, created_at, last_voted_at) VALUES
+INSERT INTO cases (name, email, phone, company, description, actions, reported_by, verdict_score, total_votes, guilty_votes, not_guilty_votes, created_at, last_voted_at) VALUES
 ('John Microsoft', 'support@fake-microsoft.com', '+1-800-123-4567', 'Fake Microsoft Support', 'Claims to be from Microsoft, asking for remote desktop access to fix computer virus.', 'Tech Support', 'FBI Scam Alert', 15, 18, 16, 2, '2024-01-15 10:30:00', '2024-02-10 14:22:00'),
 ('Sarah Windows', 'help@windows-security.net', '+1-888-999-7777', 'Windows Security Team', 'Cold calls claiming computer is infected, requests credit card for security software.', 'Tech Support', 'BBB Report', 8, 12, 10, 2, '2024-01-20 14:22:00', '2024-02-08 16:45:00'),
 ('Mike Apple', 'security@apple-support.org', '+1-877-555-0199', 'Apple Security Division', 'Phishing emails claiming iCloud account compromised, requests password reset.', 'Tech Support', 'User Report', 12, 15, 13, 2, '2024-02-01 09:15:00', '2024-02-12 10:15:00'),
@@ -57,10 +102,16 @@ INSERT INTO bad_actors (name, email, phone, company, description, actions, repor
 -- Controversial cases (close to 0 score but many votes)
 ('Crypto Advisor', 'advice@crypto-expert.net', '+1-555-CRYPTO-1', 'Crypto Expert Advisory', 'Claims to be legitimate crypto investment advisor, but charges high fees for basic advice.', 'Investment', 'Mixed Reviews', 1, 20, 10, 10, '2024-01-30 14:20:00', '2024-02-13 17:30:00'),
 ('Online Tutor', 'teach@learn-quick.com', '+1-555-LEARN-1', 'Learn Quick Academy', 'Offers online tutoring, some satisfied customers but also complaints about poor service.', 'Employment', 'Customer Reports', 0, 16, 8, 8, '2024-02-04 11:30:00', '2024-02-13 14:45:00'),
-('Insurance Agent', 'quotes@best-insurance.net', '+1-555-INSURE-1', 'Best Insurance Deals', 'Provides insurance quotes, legitimate business but uses aggressive sales tactics.', 'Insurance', 'Consumer Complaints', -1, 15, 7, 8, '2024-02-06 16:10:00', '2024-02-13 18:20:00');
+('Insurance Agent', 'quotes@best-insurance.net', '+1-555-INSURE-1', 'Best Insurance Deals', 'Provides insurance quotes, legitimate business but uses aggressive sales tactics.', 'Insurance', 'Consumer Complaints', -1, 15, 7, 8, '2024-02-06 16:10:00', '2024-02-13 18:20:00'),
 
 -- Add more entries needing votes (new entries with no votes yet)
-INSERT INTO bad_actors (name, email, phone, company, description, actions, reported_by, verdict_score, total_votes, guilty_votes, not_guilty_votes, created_at) VALUES
-('New Scammer 1', 'new@suspicious.com', '+1-555-NEW-001', 'Suspicious Company', 'Recently reported suspicious activity', 'Unknown', 'Recent Report', 0, 0, 0, 0, '2024-02-13 20:00:00'),
-('Fresh Report', 'fresh@report.net', '+1-555-NEW-002', 'Fresh Scam Inc', 'Just discovered potential scam operation', 'Tech Support', 'User Tip', 0, 0, 0, 0, '2024-02-13 21:00:00'),
-('Latest Find', 'latest@scam.org', '+1-555-NEW-003', NULL, 'Latest addition to database, needs community input', 'Phishing', 'Anonymous', 0, 0, 0, 0, '2024-02-13 22:00:00');
+('New Scammer 1', 'new@suspicious.com', '+1-555-NEW-001', 'Suspicious Company', 'Recently reported suspicious activity', 'Unknown', 'Recent Report', 0, 0, 0, 0, '2024-02-13 20:00:00', NULL),
+('Fresh Report', 'fresh@report.net', '+1-555-NEW-002', 'Fresh Scam Inc', 'Just discovered potential scam operation', 'Tech Support', 'User Tip', 0, 0, 0, 0, '2024-02-13 21:00:00', NULL),
+('Latest Find', 'latest@scam.org', '+1-555-NEW-003', NULL, 'Latest addition to database, needs community input', 'Phishing', 'Anonymous', 0, 0, 0, 0, '2024-02-13 22:00:00', NULL);
+
+-- Add some sample verification codes for testing (these will expire quickly)
+-- INSERT INTO verification_codes (email_hash, code, expires_at, attempts, verified) VALUES
+-- ('test_hash_1', '123456', DATEADD('MINUTE', 10, CURRENT_TIMESTAMP), 0, false),
+-- ('test_hash_2', '654321', DATEADD('MINUTE', 5, CURRENT_TIMESTAMP), 1, false);
+
+COMMIT;

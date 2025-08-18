@@ -161,14 +161,14 @@ public class SearchService {
         if (!isValidEmailFormat(email)) {
             throw new IllegalArgumentException("Invalid email format: " + email);
         }
-        return repository.findByEmailIgnoreCase(email, pageable);
+        return repository.findByEmailContainingIgnoreCase(email, pageable);
     }
 
     /**
      * Search by phone (exact match)
      */
     private Page<Case> searchByPhone(String phone, Pageable pageable) {
-        return repository.findByPhone(phone, pageable);
+        return repository.findByPhoneContainingIgnoreCase(phone, pageable);
     }
 
     /**
