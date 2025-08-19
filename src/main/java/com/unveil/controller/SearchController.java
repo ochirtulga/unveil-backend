@@ -159,6 +159,35 @@ public class SearchController {
     }
 
     /**
+     * Get most controversial Cases (those with close guilty/not guilty votes)
+     * GET /api/v1/cases/controversial?page=0&size=10
+     */
+    @GetMapping("/cases/latest")
+    public ResponseEntity<Map<String, Object>> getLatestCases(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size) {
+
+        try {
+            if (size > 50) size = 20;
+            if (size < 1) size = 20;
+
+            Page<Case> latestCases = service.getLatestCases(page, size);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("results", latestCases.getContent());
+            response.put("pagination", buildPaginationInfo(latestCases));
+            response.put("message", "Most recent cases");
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Failed to get most recent cases: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    /**
      * Get supported filter types
      * GET /api/v1/search/filters
      */

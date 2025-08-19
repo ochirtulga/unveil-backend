@@ -80,6 +80,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("SELECT c FROM Case c WHERE c.totalVotes >= 5 AND ABS(c.verdictScore) <= 2 ORDER BY c.totalVotes DESC")
     Page<Case> findControversialCases(Pageable pageable);
 
+//    @Query("SELECT c FROM Case c ORDER BY c.createdAt DESC")
+    Page<Case> findAllByOrderByCreatedAtDesc(Pageable pageable);
     /**
      * Find Cases with the most votes (highest community engagement)
      */

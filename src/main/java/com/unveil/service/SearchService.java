@@ -76,6 +76,14 @@ public class SearchService {
     }
 
     /**
+     * Get controversial Cases (close votes, high engagement)
+     */
+    public Page<Case> getLatestCases(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAllByOrderByCreatedAtDesc(pageable);
+    }
+
+    /**
      * Get Cases that need more votes
      */
     public Page<Case> getCasesNeedingVotes(int page, int size) {

@@ -942,3 +942,261 @@ com.unveil.controller.CaseController#getCase(Long) mapped.
 2025-08-18 15:56:11 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-08-18 15:56:11 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-08-18 15:56:11 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-18 23:37:21 [restartedMain] INFO  com.unveil.UnveilApplication - Starting UnveilApplication using Java 20.0.2.1 with PID 136884 (C:\projects\unveil-backend\unveil\build\classes\java\main started by Ochir in C:\projects\unveil-backend\unveil)
+2025-08-18 23:37:21 [restartedMain] INFO  com.unveil.UnveilApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-18 23:37:21 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-18 23:37:21 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-18 23:37:22 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-18 23:37:22 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 35 ms. Found 2 JPA repository interfaces.
+2025-08-18 23:37:22 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-18 23:37:22 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-18 23:37:22 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-08-18 23:37:22 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-18 23:37:22 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1103 ms
+2025-08-18 23:37:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-18 23:37:23 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5b6211a2
+2025-08-18 23:37:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-18 23:37:23 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-18 23:37:23 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-08-18 23:37:23 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-18 23:37:24 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-18 23:37:24 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-18 23:37:24 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-18 23:37:25 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18 23:37:25 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-18 23:37:25 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'caseController' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\controller\CaseController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseService' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\service\CaseService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+2025-08-18 23:37:25 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18 23:37:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-18 23:37:25 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-18 23:37:25 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-08-18 23:37:25 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-08-18 23:37:25 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'caseController' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\controller\CaseController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseService' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\service\CaseService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:802)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:241)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1356)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:946)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:616)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331)
+	at com.unveil.UnveilApplication.main(UnveilApplication.java:10)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'caseService' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\service\CaseService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:802)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:241)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1356)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1441)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1348)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:911)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:789)
+	... 22 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1775)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1441)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1348)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:911)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:789)
+	... 36 common frames omitted
+Caused by: org.springframework.data.repository.query.QueryCreationException: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.data.repository.query.QueryCreationException.create(QueryCreationException.java:101)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:115)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.mapMethodsToQuery(QueryExecutorMethodInterceptor.java:99)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lambda$new$0(QueryExecutorMethodInterceptor.java:88)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.<init>(QueryExecutorMethodInterceptor.java:88)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:357)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1822)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1771)
+	... 47 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.<init>(PartTreeJpaQuery.java:107)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:124)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:258)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:95)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:111)
+	... 59 common frames omitted
+Caused by: java.lang.IllegalStateException: Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAt_Chronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.throwExceptionOnArgumentMismatch(PartTreeJpaQuery.java:162)
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.validate(PartTreeJpaQuery.java:148)
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.<init>(PartTreeJpaQuery.java:101)
+	... 63 common frames omitted
+2025-08-18 23:39:29 [restartedMain] INFO  com.unveil.UnveilApplication - Starting UnveilApplication using Java 20.0.2.1 with PID 166340 (C:\projects\unveil-backend\unveil\build\classes\java\main started by Ochir in C:\projects\unveil-backend\unveil)
+2025-08-18 23:39:29 [restartedMain] INFO  com.unveil.UnveilApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-18 23:39:29 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-18 23:39:29 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-18 23:39:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-18 23:39:30 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 26 ms. Found 2 JPA repository interfaces.
+2025-08-18 23:39:30 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-18 23:39:30 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-18 23:39:30 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-08-18 23:39:30 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-18 23:39:30 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 973 ms
+2025-08-18 23:39:30 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-18 23:39:31 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52863fcf
+2025-08-18 23:39:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-18 23:39:31 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-18 23:39:31 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-08-18 23:39:31 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-18 23:39:31 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-18 23:39:31 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-18 23:39:32 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-18 23:39:32 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18 23:39:32 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-18 23:39:33 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'caseController' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\controller\CaseController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseService' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\service\CaseService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+2025-08-18 23:39:33 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18 23:39:33 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-18 23:39:33 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-18 23:39:33 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-08-18 23:39:33 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-08-18 23:39:33 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'caseController' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\controller\CaseController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseService' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\service\CaseService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:802)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:241)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1356)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:946)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:616)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331)
+	at com.unveil.UnveilApplication.main(UnveilApplication.java:10)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'caseService' defined in file [C:\projects\unveil-backend\unveil\build\classes\java\main\com\unveil\service\CaseService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:802)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:241)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1356)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1193)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1441)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1348)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:911)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:789)
+	... 22 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'caseRepository' defined in com.unveil.repository.CaseRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1775)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1441)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1348)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:911)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:789)
+	... 36 common frames omitted
+Caused by: org.springframework.data.repository.query.QueryCreationException: Could not create query for public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Reason: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.data.repository.query.QueryCreationException.create(QueryCreationException.java:101)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:115)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.mapMethodsToQuery(QueryExecutorMethodInterceptor.java:99)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lambda$new$0(QueryExecutorMethodInterceptor.java:88)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.<init>(QueryExecutorMethodInterceptor.java:88)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:357)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1822)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1771)
+	... 47 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Failed to create query for method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable); Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.<init>(PartTreeJpaQuery.java:107)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:124)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:258)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:95)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:111)
+	... 59 common frames omitted
+Caused by: java.lang.IllegalStateException: Method public abstract org.springframework.data.domain.Page com.unveil.repository.CaseRepository.findCasesByCreatedAtChronology(org.springframework.data.domain.Pageable) expects at least 1 arguments but only found 0; This leaves an operator of type SIMPLE_PROPERTY for property createdAt.chronology unbound
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.throwExceptionOnArgumentMismatch(PartTreeJpaQuery.java:162)
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.validate(PartTreeJpaQuery.java:148)
+	at org.springframework.data.jpa.repository.query.PartTreeJpaQuery.<init>(PartTreeJpaQuery.java:101)
+	... 63 common frames omitted
+2025-08-18 23:40:22 [restartedMain] INFO  com.unveil.UnveilApplication - Starting UnveilApplication using Java 20.0.2.1 with PID 166916 (C:\projects\unveil-backend\unveil\build\classes\java\main started by Ochir in C:\projects\unveil-backend\unveil)
+2025-08-18 23:40:22 [restartedMain] INFO  com.unveil.UnveilApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-18 23:40:22 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-18 23:40:22 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-18 23:40:22 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-18 23:40:22 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 28 ms. Found 2 JPA repository interfaces.
+2025-08-18 23:40:23 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-18 23:40:23 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-18 23:40:23 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-08-18 23:40:23 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-18 23:40:23 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1013 ms
+2025-08-18 23:40:23 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-18 23:40:24 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@502b88d7
+2025-08-18 23:40:24 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-18 23:40:24 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-18 23:40:24 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-08-18 23:40:24 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-18 23:40:24 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-18 23:40:24 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-18 23:40:24 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-18 23:40:25 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18 23:40:25 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-18 23:40:25 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-18 23:40:26 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-08-18 23:40:26 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-08-18 23:40:26 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-08-18 23:40:26 [restartedMain] INFO  com.unveil.UnveilApplication - Started UnveilApplication in 4.602 seconds (process running for 4.842)
+2025-08-18 23:40:31 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-18 23:40:31 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-18 23:40:31 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
