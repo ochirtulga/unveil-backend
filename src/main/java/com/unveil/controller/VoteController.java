@@ -174,60 +174,6 @@ public class VoteController {
     }
 
     /**
-     * Bulk vote endpoint for testing purposes
-     * POST /api/v1/case/{id}/bulk-vote
-     * Body: {"guiltyVotes": 5, "notGuiltyVotes": 2}
-     */
-    @PostMapping("/case/{id}/bulk-vote")
-    public ResponseEntity<Map<String, Object>> bulkVote(
-            @PathVariable Long id,
-            @RequestBody Map<String, Integer> voteRequest) {
-
-        try {
-            Integer guiltyVotes = voteRequest.get("guiltyVotes");
-            Integer notGuiltyVotes = voteRequest.get("notGuiltyVotes");
-
-            if (guiltyVotes == null) guiltyVotes = 0;
-            if (notGuiltyVotes == null) notGuiltyVotes = 0;
-
-            if (guiltyVotes < 0 || notGuiltyVotes < 0) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Vote counts cannot be negative");
-                return ResponseEntity.badRequest().body(errorResponse);
-            }
-
-            if (guiltyVotes == 0 && notGuiltyVotes == 0) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "At least one vote count must be greater than 0");
-                return ResponseEntity.badRequest().body(errorResponse);
-            }
-
-            Case updatedCase = voteService.bulkVote(id, guiltyVotes, notGuiltyVotes);
-
-            if (updatedCase == null) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Case not found");
-                errorResponse.put("id", id);
-                return ResponseEntity.notFound().build();
-            }
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("message", String.format("Added %d guilty votes and %d not guilty votes",
-                    guiltyVotes, notGuiltyVotes));
-            response.put("caseId", id);
-            response.put("verdict", updatedCase.getVerdictSummary());
-
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to bulk vote: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
-
-    /**
      * Remove votes from a case (for testing/admin purposes)
      * POST /api/v1/case/{id}/reset-votes
      */

@@ -11,18 +11,6 @@ import java.util.List;
 public interface CaseRepository extends JpaRepository<Case, Long> {
 
     /**
-     * Search Cases by query string across multiple fields
-     * This searches name, email, phone, and company fields
-     */
-    @Query("SELECT c FROM Case c WHERE " +
-            "LOWER(c.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-            "LOWER(c.email) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-            "c.phone LIKE CONCAT('%', :query, '%') OR " +
-            "LOWER(c.company) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-            "LOWER(c.actions) LIKE LOWER(CONCAT('%', :query, '%'))")
-    List<Case> searchCases(@Param("query") String query);
-
-    /**
      * Search with pagination for better performance
      */
     @Query("SELECT c FROM Case c WHERE " +
@@ -97,19 +85,6 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
      */
     @Query("SELECT c FROM Case c WHERE c.totalVotes > 0 ORDER BY c.totalVotes DESC")
     Page<Case> findMostVotedCases(Pageable pageable);
-
-    /**
-     * Find Cases with strongest guilty verdicts (highest positive scores)
-     */
-    @Query("SELECT c FROM Case c WHERE c.verdictScore > 0 ORDER BY c.verdictScore DESC")
-    Page<Case> findStrongestGuiltyCases(Pageable pageable);
-
-    /**
-     * Find Cases with strongest not guilty verdicts (most negative scores)
-     */
-    @Query("SELECT c FROM Case c WHERE c.verdictScore < 0 ORDER BY c.verdictScore ASC")
-    Page<Case> findStrongestNotGuiltyCases(Pageable pageable);
-
     /**
      * Get count of Cases by verdict status
      */

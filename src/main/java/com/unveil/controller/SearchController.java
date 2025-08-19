@@ -159,24 +159,6 @@ public class SearchController {
     }
 
     /**
-     * Get specific Case details by ID
-     * GET /api/v1/case/123
-     */
-    @GetMapping("/case/{id}")
-    public ResponseEntity<?> getCase(@PathVariable Long id) {
-        Optional<Case> caseEntity = service.getCaseById(id);
-
-        if (caseEntity.isPresent()) {
-            return ResponseEntity.ok(caseEntity.get());
-        } else {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Case not found");
-            errorResponse.put("id", id);
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    /**
      * Get supported filter types
      * GET /api/v1/search/filters
      */
